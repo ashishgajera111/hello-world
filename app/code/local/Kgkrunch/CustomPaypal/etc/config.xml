@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Kgkrunch_CustomPaypal>
+            <version>0.0.1</version>
+        </Kgkrunch_CustomPaypal>
+    </modules>
+    <global>
+        <models>
+            <custompaypal>
+                <class>Kgkrunch_CustomPaypal_Model</class>
+            </custompaypal>           
+        </models>        
+        <blocks>
+            <custompaypal>
+                <class>Kgkrunch_CustomPaypal_Block</class>
+            </custompaypal>            
+		</blocks>  
+        <helpers>
+            <custompaypal>
+                <class>Kgkrunch_CustomPaypal_Helper</class>
+            </custompaypal>            
+		</helpers>         
+    </global> 
+    
+  <default>
+    <payment>
+      <custompaypal>
+        <active>1</active>
+        <model>custompaypal/paymentmethod</model>
+        <order_status>pending</order_status>
+        <title>KgkrunchCustomPaypal</title>
+        <allowspecific>0</allowspecific>
+        <payment_action>sale</payment_action>
+      </custompaypal>
+    </payment>
+  </default>
+    
+	<adminhtml>
+	        <routers>
+	            <custompaypal>
+	                <use>standard</use>
+	                <args>
+	                    <module>Kgkrunch_CustomPaypal</module>
+	                    <frontName>custompaypal</frontName>
+	                </args>             
+	            </custompaypal>
+	        </routers>    
+	</adminhtml>    
+    <frontend>  
+        <routers>
+            <custompaypal>
+                <use>standard</use>
+                <args>
+                    <module>Kgkrunch_CustomPaypal</module>
+                    <frontName>custompaypal</frontName>
+                </args>             
+            </custompaypal>
+        </routers>            
+    </frontend>    
+    
+</config>

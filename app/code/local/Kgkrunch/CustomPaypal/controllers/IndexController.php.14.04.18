@@ -1,0 +1,46 @@
+<?php
+
+class Mageez_Moxipay_IndexController extends Mage_Core_Controller_Front_Action
+{    
+    
+    public function ipnAction(){
+        $inputJSON = file_get_contents('php://input');
+        $input = json_decode($inputJSON, TRUE); //convert JSON into array
+        
+        Mage::log('IPN Json '.$inputJSON, null, 'moxipay.log');
+        //Mage::log('IPN received '.$input, null, 'moxipay.log');
+        Mage::log('IPN invoiceid '.$input['invoiceID'], null, 'moxipay.log');
+        if( $input['result'] != 'accepted' ){
+            echo 'result error';
+            Mage::log('Order '.$input['invoiceID'].' error > '.$input['result'], null, 'moxipay.log');
+            return;
+        }else{
+            $order = Mage::getSingleton('sales/order')->load($input['invoiceID']);
+            //echo $input['invoiceID'].' >>';
+            if( $order->getGrandTotal() != $input['expectedAmount'] ){
+                echo 'amount did not match';
+                Mage::log('Order '.$input['invoiceID'].' amount error > '.$input['expectedAmount'], null, 'moxipay.log');
+            }else{
+                if( $order->getStatus() != 'processing' ){
+                    $invoice = Mage::getModel('sales/service_order', $order)->prepareInvoice();
+                    $invoice->register();
+                    $transactionSave = Mage::getModel('core/resource_transaction')
+                    ->addObject($invoice)
+                    ->addObject($invoice->getOrder());
+
+                    $transactionSave->save();       
+                    $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true)->save();
+
+                    echo $input['invoiceID'].' Order Updated';
+                    Mage::log('Order '.$input['invoiceID'].' APPROVED > ', null, 'moxipay.log');
+                }else{
+                    echo 'State '.$input['invoiceID'].' - '.$order->getStatus();
+                }
+            }
+        }
+
+    }
+   
+}
+
+?>

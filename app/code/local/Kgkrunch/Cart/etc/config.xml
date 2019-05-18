@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Kgkrunch_Cart>
+      <version>3.0.0</version>
+    </Kgkrunch_Cart>
+  </modules>
+   <global>
+   <helpers>
+      <cart>
+        <class>Kgkrunch_Cart_Helper</class>
+      </cart>
+    </helpers>
+   </global>
+  <frontend>
+    <events>
+      <controller_action_predispatch_checkout_onepage_index>
+        <observers>
+          <kgkrunch_cart_controller_action_predispatch_checkout_onepage_index>
+            <type>singleton</type>
+            <class>Kgkrunch_Cart_Model_Observer</class>
+            <method>coupon</method>
+          </kgkrunch_cart_controller_action_predispatch_checkout_onepage_index>
+        </observers>
+      </controller_action_predispatch_checkout_onepage_index>
+    </events>
+  </frontend>
+  <adminhtml>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <kgkrunch>
+                                        <title>Kgkrunch - All</title>
+                                    </kgkrunch>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</adminhtml>
+</config>
+

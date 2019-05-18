@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Blockchain_Icanpay>
+      <version>1.0.0.0</version>
+    </Blockchain_Icanpay>
+  </modules>
+ 
+  <global>
+    <fieldsets>
+      <sales_convert_quote_payment>
+       
+        <blockchain_card_number>
+          <to_order_payment>*</to_order_payment>
+        </blockchain_card_number>
+        <blockchain_cvv>
+          <to_order_payment>*</to_order_payment>
+        </blockchain_cvv>
+        <blockchain_expiry_date>
+          <to_order_payment>*</to_order_payment>
+        </blockchain_expiry_date>
+      </sales_convert_quote_payment>
+    </fieldsets>
+     
+    <helpers>
+      <icanpay>
+        <class>Blockchain_Icanpay_Helper</class>
+      </icanpay>
+    </helpers>
+ 
+    <blocks>
+      <icanpay>
+        <class>Blockchain_Icanpay_Block</class>
+      </icanpay>
+    </blocks>
+         
+    <models>
+      <icanpay>
+        <class>Blockchain_Icanpay_Model</class>
+      </icanpay>
+    </models>
+ 
+    <resources>
+      <icanpay_setup>
+        <setup>
+          <module>Blockchain_Icanpay</module>
+        </setup>
+      </icanpay_setup>
+    </resources>
+  </global>
+ 
+  <default>
+    <payment>
+      <icanpay>
+        <active>1</active>
+        <model>icanpay/paymentmethod</model>
+        <order_status>pending</order_status>
+        <title>Blockchain</title>
+        <client_id>IDfa8b2d807d9eb5f98787cbeb3a8cdfd20248a63e</client_id>
+        <client_secret>SE9d98f7a711545d90267bbcae3a750488443380cc</client_secret>
+        <location_id>Vw6iY54iYDxCJg==</location_id>
+        <allowspecific>0</allowspecific>
+        <payment_action>authorize_capture</payment_action>
+        <is_live>0</is_live>
+      </icanpay>
+    </payment>
+  </default>
+   
+  <frontend>
+    <routers>
+      <icanpay>
+        <use>standard</use>
+        <args>
+          <module>Blockchain_Icanpay</module>
+          <frontName>icanpay</frontName>
+        </args>
+      </icanpay>
+    </routers>
+  </frontend>
+</config>
